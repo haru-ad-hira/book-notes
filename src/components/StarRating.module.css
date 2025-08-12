@@ -1,0 +1,57 @@
+/* StarRating.module.css */
+.container {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.star {
+  font-size: 20px;
+  transition: color 0.2s ease;
+  user-select: none;
+}
+
+.filled {
+  color: #fbbf24;
+}
+
+.empty {
+  color: #d1d5db;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  color: #fbbf24 !important;
+}
+
+.interactive .star {
+  transition: all 0.2s ease;
+}
+
+/* === レスポンシブ対応 === */
+@media (max-width: 768px) {
+  .container {
+    gap: 6px;
+  }
+
+  .star {
+    font-size: 24px;
+    /* スマホでタッチしやすいサイズ */
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    gap: 8px;
+    justify-content: center;
+    /* 小さい画面では中央揃え */
+  }
+
+  .star {
+    font-size: 28px;
+    /* さらに大きく */
+  }
+}

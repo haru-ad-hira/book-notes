@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import StarRating from './StarRating';
 import type { Book, BookStatus } from '../types';
+import styles from './BookItem.module.css';
 
 type Props = {
   book: Book;
@@ -9,34 +10,11 @@ type Props = {
   onSave: (book: Book) => void;
 };
 
-const getStatusLabel = (status: BookStatus) => {
-  const statusMap = {
-    'want-to-read': '読みたい',
-    reading: '今読んでいる',
-    finished: '読み終わった',
-    'on-hold': '積読',
-  };
-  return statusMap[status];
-};
-
-const getStatusColor = (status: BookStatus) => {
-  const colorMap = {
-    'want-to-read': '#3b82f6',
-    reading: '#f59e0b',
-    finished: '#10b981',
-    'on-hold': '#6b7280',
-  };
-  return colorMap[status];
-};
-
-const getStatusBgColor = (status: BookStatus) => {
-  const bgColorMap = {
-    'want-to-read': '#dbeafe',
-    reading: '#fef3c7',
-    finished: '#dcfce7',
-    'on-hold': '#f3f4f6',
-  };
-  return bgColorMap[status];
+const statusStyles: Record<BookStatus, { label: string; color: string; bg: string }> = {
+  'want-to-read': { label: '読みたい', color: '#3b82f6', bg: '#dbeafe' },
+  reading: { label: '今読んでいる', color: '#f59e0b', bg: '#fef3c7' },
+  finished: { label: '読み終わった', color: '#10b981', bg: '#dcfce7' },
+  'on-hold': { label: '積読', color: '#6b7280', bg: '#f3f4f6' },
 };
 
 const BookItem = ({ book, onEdit, onDelete, onSave }: Props) => {
@@ -62,142 +40,48 @@ const BookItem = ({ book, onEdit, onDelete, onSave }: Props) => {
     setEditData(prev => ({ ...prev, [field]: value }));
   };
 
+  // book.status が有効かチェックし、デフォルト値を設定
+  const currentStatus = book.status && statusStyles[book.status] ? book.status : 'want-to-read';
+  const statusStyle = statusStyles[currentStatus];
+
   if (isEditing) {
     return (
-      <div
-        style={{
-          backgroundColor: 'white',
-          borderRadius: '0.75rem',
-          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-          border: '2px solid #10b981',
-          padding: '1.5rem',
-        }}
-      >
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <div style={{ flexShrink: 0 }}>
+      <div className={`${styles.container} ${styles.editContainer}`}>
+        <div className={styles.inner}>
+          <div>
             {editData.thumbnail ? (
-              <img
-                src={editData.thumbnail}
-                alt={editData.title}
-                style={{
-                  width: '96px',
-                  height: '128px',
-                  objectFit: 'cover',
-                  borderRadius: '0.5rem',
-                }}
-              />
+              <img src={editData.thumbnail} alt={editData.title} className={styles.thumbnail} />
             ) : (
-              <div
-                style={{
-                  width: '96px',
-                  height: '128px',
-                  backgroundColor: '#dcfce7',
-                  borderRadius: '0.5rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '2rem',
-                }}
-              >
-                📚
-              </div>
+              <div className={styles.noImage}>📚</div>
             )}
           </div>
-
-          <div style={{ flex: 1 }}>
-            <div style={{ marginBottom: '1rem' }}>
-              <h3 style={{ 
-                margin: '0 0 0.5rem 0', 
-                fontWeight: 'bold',
-                color: '#10b981',
-                fontSize: '1.25rem'
-              }}>
-                📝 編集中
-              </h3>
-            </div>
-
-            <div style={{ display: 'grid', gap: '1rem' }}>
-              {/* タイトル */}
+          <div className={styles.content}>
+            <h3 className={styles.title} style={{ color: '#10b981', fontSize: '1.25rem' }}>📝 編集中</h3>
+            <div className={styles.inputGroup}>
               <div>
-                <label style={{
-                  display: 'block',
-                  fontSize: '0.875rem',
-                  fontWeight: '500',
-                  color: '#374151',
-                  marginBottom: '0.25rem'
-                }}>
-                  タイトル
-                </label>
+                <label className={styles.label}>タイトル</label>
                 <input
                   type="text"
                   value={editData.title}
                   onChange={(e) => handleInputChange('title', e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    border: '1px solid #d1d5db',
-                    borderRadius: '0.375rem',
-                    fontSize: '0.875rem',
-                    outline: 'none',
-                  }}
-                  onFocus={(e) => (e.target.style.borderColor = '#10b981')}
-                  onBlur={(e) => (e.target.style.borderColor = '#d1d5db')}
+                  className={styles.input}
                 />
               </div>
-
-              {/* 著者 */}
               <div>
-                <label style={{
-                  display: 'block',
-                  fontSize: '0.875rem',
-                  fontWeight: '500',
-                  color: '#374151',
-                  marginBottom: '0.25rem'
-                }}>
-                  著者
-                </label>
+                <label className={styles.label}>著者</label>
                 <input
                   type="text"
                   value={editData.authors}
                   onChange={(e) => handleInputChange('authors', e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    border: '1px solid #d1d5db',
-                    borderRadius: '0.375rem',
-                    fontSize: '0.875rem',
-                    outline: 'none',
-                  }}
-                  onFocus={(e) => (e.target.style.borderColor = '#10b981')}
-                  onBlur={(e) => (e.target.style.borderColor = '#d1d5db')}
+                  className={styles.input}
                 />
               </div>
-
-              {/* ステータス */}
               <div>
-                <label style={{
-                  display: 'block',
-                  fontSize: '0.875rem',
-                  fontWeight: '500',
-                  color: '#374151',
-                  marginBottom: '0.25rem'
-                }}>
-                  ステータス
-                </label>
+                <label className={styles.label}>ステータス</label>
                 <select
                   value={editData.status}
                   onChange={(e) => handleInputChange('status', e.target.value as BookStatus)}
-                  style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    border: '1px solid #d1d5db',
-                    borderRadius: '0.375rem',
-                    fontSize: '0.875rem',
-                    outline: 'none',
-                    backgroundColor: 'white',
-                  }}
-                  onFocus={(e) => (e.target.style.borderColor = '#10b981')}
-                  onBlur={(e) => (e.target.style.borderColor = '#d1d5db')}
+                  className={styles.select}
                 >
                   <option value="want-to-read">読みたい</option>
                   <option value="reading">今読んでいる</option>
@@ -205,102 +89,26 @@ const BookItem = ({ book, onEdit, onDelete, onSave }: Props) => {
                   <option value="on-hold">積読</option>
                 </select>
               </div>
-
-              {/* 評価 */}
               <div>
-                <label style={{
-                  display: 'block',
-                  fontSize: '0.875rem',
-                  fontWeight: '500',
-                  color: '#374151',
-                  marginBottom: '0.25rem'
-                }}>
-                  評価
-                </label>
-                <StarRating 
-                  rating={editData.rating || 0} 
+                <label className={styles.label}>評価</label>
+                <StarRating
+                  rating={editData.rating || 0}
                   onRatingChange={(rating) => handleInputChange('rating', rating)}
                   interactive={true}
                 />
               </div>
-
-              {/* 感想 */}
               <div>
-                <label style={{
-                  display: 'block',
-                  fontSize: '0.875rem',
-                  fontWeight: '500',
-                  color: '#374151',
-                  marginBottom: '0.25rem'
-                }}>
-                  感想
-                </label>
+                <label className={styles.label}>感想</label>
                 <textarea
                   value={editData.review}
                   onChange={(e) => handleInputChange('review', e.target.value)}
                   rows={3}
-                  style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    border: '1px solid #d1d5db',
-                    borderRadius: '0.375rem',
-                    fontSize: '0.875rem',
-                    outline: 'none',
-                    resize: 'vertical',
-                  }}
-                  onFocus={(e) => (e.target.style.borderColor = '#10b981')}
-                  onBlur={(e) => (e.target.style.borderColor = '#d1d5db')}
+                  className={styles.textarea}
                 />
               </div>
-
-              {/* ボタン */}
-              <div style={{ display: 'flex', gap: '0.5rem', paddingTop: '0.5rem' }}>
-                <button
-                  onClick={handleSave}
-                  style={{
-                    flex: 1,
-                    backgroundColor: '#10b981',
-                    color: 'white',
-                    padding: '0.5rem 1rem',
-                    border: 'none',
-                    borderRadius: '0.375rem',
-                    fontSize: '0.875rem',
-                    fontWeight: '500',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#059669';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#10b981';
-                  }}
-                >
-                  💾 保存
-                </button>
-                <button
-                  onClick={handleCancel}
-                  style={{
-                    flex: 1,
-                    backgroundColor: '#6b7280',
-                    color: 'white',
-                    padding: '0.5rem 1rem',
-                    border: 'none',
-                    borderRadius: '0.375rem',
-                    fontSize: '0.875rem',
-                    fontWeight: '500',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#4b5563';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#6b7280';
-                  }}
-                >
-                  ❌ キャンセル
-                </button>
+              <div className={styles.actions}>
+                <button onClick={handleSave} className={`${styles.button} ${styles.buttonSave}`}>💾 保存</button>
+                <button onClick={handleCancel} className={`${styles.button} ${styles.buttonCancel}`}>❌ キャンセル</button>
               </div>
             </div>
           </div>
@@ -309,157 +117,39 @@ const BookItem = ({ book, onEdit, onDelete, onSave }: Props) => {
     );
   }
 
-  // 通常表示モード
   return (
-    <div
-      style={{
-        backgroundColor: 'white',
-        borderRadius: '0.75rem',
-        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-        border: '1px solid #f3f4f6',
-        padding: '1.5rem',
-        transition: 'all 0.2s ease',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-        e.currentTarget.style.transform = 'translateY(-1px)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
-        e.currentTarget.style.transform = 'translateY(0)';
-      }}
-    >
-      <div style={{ display: 'flex', gap: '1rem' }}>
-        <div style={{ flexShrink: 0 }}>
+    <div className={styles.container}>
+      <div className={styles.inner}>
+        <div>
           {book.thumbnail ? (
-            <img
-              src={book.thumbnail}
-              alt={book.title}
-              style={{
-                width: '96px',
-                height: '128px',
-                objectFit: 'cover',
-                borderRadius: '0.5rem',
-              }}
-            />
+            <img src={book.thumbnail} alt={book.title} className={styles.thumbnail} />
           ) : (
-            <div
-              style={{
-                width: '96px',
-                height: '128px',
-                backgroundColor: '#dcfce7',
-                borderRadius: '0.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '2rem',
-              }}
-            >
-              📚
-            </div>
+            <div className={styles.noImage}>📚</div>
           )}
         </div>
-
-        <div style={{ flex: 1 }}>
-          <h3 style={{ margin: '0 0 0.5rem 0', fontWeight: 'bold' }}>{book.title}</h3>
+        <div className={styles.content}>
+          <h3 className={styles.title}>{book.title}</h3>
           <div
+            className={styles.statusLabel}
             style={{
-              display: 'inline-block',
-              padding: '0.25rem 0.75rem',
-              backgroundColor: getStatusBgColor(book.status),
-              color: getStatusColor(book.status),
-              borderRadius: '9999px',
-              fontSize: '0.75rem',
-              fontWeight: '600',
-              marginBottom: '0.5rem',
+              backgroundColor: statusStyle.bg,
+              color: statusStyle.color,
             }}
           >
-            {getStatusLabel(book.status)}
+            {statusStyle.label}
           </div>
-
-          <p style={{ fontSize: '0.875rem', color: '#6b7280', margin: '0 0 0.5rem 0' }}>{book.authors}</p>
-
-          {book.dateAdded && (
-            <p style={{ 
-              fontSize: '0.75rem', 
-              color: '#9ca3af', 
-              margin: '0 0 0.5rem 0',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.25rem'
-            }}>
-              📅 {book.dateAdded}
-            </p>
-          )}
-
+          <p className={styles.authors}>{book.authors}</p>
+          {book.dateAdded && <p className={styles.date}>📅 {book.dateAdded}</p>}
           <StarRating rating={book.rating || 0} />
-
           {book.review && (
-            <div
-              style={{
-                backgroundColor: '#f0f9ff',
-                padding: '0.75rem',
-                borderRadius: '0.5rem',
-                color: '#0c4a6e',
-                marginTop: '0.75rem',
-              }}
-            >
+            <div className={styles.reviewBox}>
               <strong>✍️ 感想</strong>
-              <p style={{ margin: '0.5rem 0 0 0', lineHeight: '1.5' }}>{book.review}</p>
+              <p className={styles.reviewText}>{book.review}</p>
             </div>
           )}
-
-          <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem' }}>
-            <button 
-              onClick={handleEdit}
-              style={{
-                backgroundColor: '#3b82f6',
-                color: 'white',
-                padding: '0.5rem 1rem',
-                border: 'none',
-                borderRadius: '0.375rem',
-                fontSize: '0.875rem',
-                fontWeight: '500',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.25rem',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#2563eb';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#3b82f6';
-              }}
-            >
-              ✏️ 編集
-            </button>
-            <button 
-              onClick={() => onDelete(book.id)}
-              style={{
-                backgroundColor: '#ef4444',
-                color: 'white',
-                padding: '0.5rem 1rem',
-                border: 'none',
-                borderRadius: '0.375rem',
-                fontSize: '0.875rem',
-                fontWeight: '500',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.25rem',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#dc2626';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#ef4444';
-              }}
-            >
-              🗑️ 削除
-            </button>
+          <div className={styles.actions}>
+            <button onClick={handleEdit} className={`${styles.button} ${styles.buttonEdit}`}>✏️ 編集</button>
+            <button onClick={() => onDelete(book.id)} className={`${styles.button} ${styles.buttonDelete}`}>🗑️ 削除</button>
           </div>
         </div>
       </div>

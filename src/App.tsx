@@ -336,25 +336,26 @@ function App() {
   };
 
   const filteredBooks = books.filter(book => {
-    const matchesSearch = book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         book.authors.toLowerCase().includes(searchTerm.toLowerCase());
-    
+    // book オブジェクトの安全性チェック
+    if (!book || typeof book !== 'object') return false;
+
+    const matchesSearch = (book.title || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         (book.authors || '').toLowerCase().includes(searchTerm.toLowerCase());
+
     if (activeFilter === 'all') return matchesSearch;
-    if (activeFilter === 'with-review') return matchesSearch && book.review.trim() !== '';
-    if (activeFilter === 'finished') {
-      // 「読み終わった」には、ステータスが'finished'の本 または 感想を書いた本
-      return matchesSearch && (book.status === 'finished' || book.review.trim() !== '');
-    }
+    if (activeFilter === 'with-review') return matchesSearch && book.review && book.review.trim() !== '';
+
+    // 各ステータスは純粋にステータスのみで判定
     return matchesSearch && book.status === activeFilter;
   });
 
   const getFilterCounts = () => {
     return {
       all: books.length,
-      'with-review': books.filter(book => book.review.trim() !== '').length,
+      'with-review': books.filter(book => book.review && book.review.trim() !== '').length,
       'want-to-read': books.filter(book => book.status === 'want-to-read').length,
       'reading': books.filter(book => book.status === 'reading').length,
-      'finished': books.filter(book => book.status === 'finished' || book.review.trim() !== '').length, // ステータスが'finished' または 感想あり
+      'finished': books.filter(book => book.status === 'finished').length,
       'on-hold': books.filter(book => book.status === 'on-hold').length,
     };
   };

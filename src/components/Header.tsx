@@ -1,23 +1,11 @@
+import styles from './Header.module.css';
+
 const Header = () => {
   return (
-    <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginBottom: '1rem',
-        }}
-      >
-        <span style={{ fontSize: '2.5rem', marginRight: '0.75rem' }}>📚</span>
-        <h1
-          style={{
-            fontSize: '2.5rem',
-            fontWeight: 'bold',
-            color: '#111827',
-            margin: 0,
-          }}
-        >
+    <div className={styles.container}>
+      <div className={styles.inner}>
+        <span className={styles.icon}>📚</span>
+        <h1 className={styles.title}>
           あなたの本棚
         </h1>
       </div>

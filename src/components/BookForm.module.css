@@ -1,0 +1,209 @@
+/* BookForm.module.css */
+.container {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f3f4f6;
+  margin-bottom: 2rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #111827;
+  margin: 0;
+}
+
+.closeButton {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 0.25rem;
+  transition: color 0.2s ease;
+}
+
+.closeButton:hover {
+  color: #6b7280;
+}
+
+.searchSection {
+  margin-bottom: 1.5rem;
+}
+
+.form {
+  width: 100%;
+}
+
+.formGrid {
+  display: grid;
+  gap: 1rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  border-color: #10b981;
+}
+
+.select {
+  background-color: white;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 3rem;
+}
+
+.thumbnail {
+  height: 150px;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  padding-top: 1rem;
+}
+
+.button {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submitButton {
+  background-color: #10b981;
+  color: white;
+}
+
+.submitButton:hover {
+  background-color: #059669;
+}
+
+.cancelButton {
+  background-color: #6b7280;
+  color: white;
+}
+
+.cancelButton:hover {
+  background-color: #4b5563;
+}
+
+/* === レスポンシブ対応 === */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .input,
+  .select,
+  .textarea {
+    padding: 0.625rem;
+    font-size: 0.875rem;
+  }
+
+  .thumbnail {
+    height: 120px;
+    max-width: 100%;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .button {
+    padding: 0.875rem 1.5rem;
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem;
+    margin: 0 0.5rem 2rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .closeButton {
+    align-self: flex-end;
+    font-size: 1.25rem;
+  }
+
+  .title {
+    font-size: 1.125rem;
+  }
+
+  .label {
+    font-size: 0.8125rem;
+  }
+
+  .input,
+  .select,
+  .textarea {
+    padding: 0.5rem;
+    font-size: 0.8125rem;
+  }
+
+  .thumbnail {
+    height: 100px;
+    align-self: center;
+  }
+
+  .button {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+}

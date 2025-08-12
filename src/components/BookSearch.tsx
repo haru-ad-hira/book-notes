@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import styles from './BookSearch.module.css';
 
 type GoogleBook = {
   id: string;
@@ -22,6 +23,7 @@ const BookSearch = ({ onSelect }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const searchBooks = async () => {
+    if (!query.trim()) return;
     setIsLoading(true);
     try {
       const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`);
@@ -34,38 +36,58 @@ const BookSearch = ({ onSelect }: Props) => {
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      searchBooks();
+    }
+  };
+
   return (
-    <div>
-      <h2>Google Booksで検索</h2>
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="キーワードを入力"
-      />
-      <button onClick={searchBooks}>検索</button>
+    <div className={styles.container}>
+      <label className={styles.label}>Google Booksで検索</label>
+      <div className={styles.searchWrapper}>
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyPress={handleKeyPress}
+          placeholder="書籍名や著者名を入力"
+          className={styles.input}
+        />
+        <button
+          onClick={searchBooks}
+          disabled={!query.trim() || isLoading}
+          className={`${styles.button} ${(!query.trim() || isLoading) ? styles.buttonDisabled : ''}`}
+        >
+          {isLoading ? '検索中...' : '検索'}
+        </button>
+      </div>
 
-      {isLoading && <p>検索中...</p>}
-
-      <ul>
-        {results.map((book) => (
-          <li key={book.id} style={{ marginBottom: '1rem' }}>
-            <strong>{book.volumeInfo.title}</strong>
-            <br />
-            <small>{book.volumeInfo.authors?.join(', ')}</small>
-            <br />
-            {book.volumeInfo.imageLinks?.thumbnail && (
-              <img
-                src={book.volumeInfo.imageLinks.thumbnail}
-                alt={book.volumeInfo.title}
-                style={{ height: '100px' }}
-              />
-            )}
-            <br />
-            <button onClick={() => onSelect(book)}>この本を選ぶ</button>
-          </li>
-        ))}
-      </ul>
+      {results.length > 0 && (
+        <div className={styles.resultsContainer}>
+          {results.map((book) => (
+            <div
+              key={book.id}
+              className={styles.resultItem}
+              onClick={() => onSelect(book)}
+            >
+              {book.volumeInfo.imageLinks?.thumbnail && (
+                <img
+                  src={book.volumeInfo.imageLinks.thumbnail}
+                  alt={book.volumeInfo.title}
+                  className={styles.thumbnail}
+                />
+              )}
+              <div className={styles.bookInfo}>
+                <h4 className={styles.title}>{book.volumeInfo.title}</h4>
+                <p className={styles.authors}>
+                  {book.volumeInfo.authors?.join(', ') || '著者不明'}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

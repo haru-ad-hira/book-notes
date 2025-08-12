@@ -1,0 +1,60 @@
+/* SearchBar.module.css */
+.container {
+  margin-bottom: 1rem;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  font-size: 1.25rem;
+  pointer-events: none;
+}
+
+/* === レスポンシブ対応 === */
+@media (max-width: 768px) {
+  .input {
+    padding: 0.625rem 0.875rem 0.625rem 2.25rem;
+    font-size: 0.875rem;
+  }
+
+  .icon {
+    left: 0.625rem;
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .input {
+    padding: 0.5rem 0.75rem 0.5rem 2rem;
+    font-size: 0.875rem;
+  }
+
+  .icon {
+    left: 0.5rem;
+    font-size: 1rem;
+  }
+}

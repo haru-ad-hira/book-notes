@@ -1,3 +1,6 @@
+// Pagination.tsx
+import styles from './Pagination.module.css';
+
 type Props = {
   currentPage: number;
   totalPages: number;
@@ -31,57 +34,19 @@ const Pagination = ({ currentPage, totalPages, onPageChange, totalItems, itemsPe
   };
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: '1rem',
-      padding: '2rem 0',
-      borderTop: '1px solid #e5e7eb',
-      marginTop: '2rem'
-    }}>
+    <div className={styles.container}>
       {/* アイテム数表示 */}
-      <div style={{
-        fontSize: '0.875rem',
-        color: '#6b7280',
-        textAlign: 'center'
-      }}>
+      <div className={styles.itemCount}>
         {totalItems}件中 {startItem}-{endItem}件を表示
       </div>
 
       {/* ページネーションボタン */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '0.5rem',
-        flexWrap: 'wrap',
-        justifyContent: 'center'
-      }}>
+      <div className={styles.buttonContainer}>
         {/* 最初のページボタン */}
         <button
           onClick={() => onPageChange(1)}
           disabled={currentPage === 1}
-          style={{
-            padding: '0.5rem 0.75rem',
-            border: '1px solid #d1d5db',
-            borderRadius: '0.375rem',
-            backgroundColor: 'white',
-            color: currentPage === 1 ? '#9ca3af' : '#374151',
-            cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-            fontSize: '0.875rem',
-            transition: 'all 0.2s ease',
-            opacity: currentPage === 1 ? 0.5 : 1
-          }}
-          onMouseEnter={(e) => {
-            if (currentPage !== 1) {
-              e.currentTarget.style.backgroundColor = '#f3f4f6';
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (currentPage !== 1) {
-              e.currentTarget.style.backgroundColor = 'white';
-            }
-          }}
+          className={`${styles.button} ${styles.navButton} ${currentPage === 1 ? styles.disabled : ''}`}
         >
           最初
         </button>
@@ -90,29 +55,9 @@ const Pagination = ({ currentPage, totalPages, onPageChange, totalItems, itemsPe
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          style={{
-            padding: '0.5rem 0.75rem',
-            border: '1px solid #d1d5db',
-            borderRadius: '0.375rem',
-            backgroundColor: 'white',
-            color: currentPage === 1 ? '#9ca3af' : '#374151',
-            cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-            fontSize: '0.875rem',
-            transition: 'all 0.2s ease',
-            opacity: currentPage === 1 ? 0.5 : 1
-          }}
-          onMouseEnter={(e) => {
-            if (currentPage !== 1) {
-              e.currentTarget.style.backgroundColor = '#f3f4f6';
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (currentPage !== 1) {
-              e.currentTarget.style.backgroundColor = 'white';
-            }
-          }}
+          className={`${styles.button} ${styles.navButton} ${currentPage === 1 ? styles.disabled : ''}`}
         >
-          ◀ 前
+          <span className={styles.arrow}>◀</span> 前
         </button>
 
         {/* ページ番号ボタン */}
@@ -120,28 +65,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange, totalItems, itemsPe
           <button
             key={pageNum}
             onClick={() => onPageChange(pageNum)}
-            style={{
-              padding: '0.5rem 0.75rem',
-              border: '1px solid #d1d5db',
-              borderRadius: '0.375rem',
-              backgroundColor: pageNum === currentPage ? '#10b981' : 'white',
-              color: pageNum === currentPage ? 'white' : '#374151',
-              cursor: 'pointer',
-              fontSize: '0.875rem',
-              fontWeight: pageNum === currentPage ? '600' : '400',
-              minWidth: '2.5rem',
-              transition: 'all 0.2s ease'
-            }}
-            onMouseEnter={(e) => {
-              if (pageNum !== currentPage) {
-                e.currentTarget.style.backgroundColor = '#f3f4f6';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (pageNum !== currentPage) {
-                e.currentTarget.style.backgroundColor = 'white';
-              }
-            }}
+            className={`${styles.button} ${styles.pageButton} ${pageNum === currentPage ? styles.active : ''}`}
           >
             {pageNum}
           </button>
@@ -151,67 +75,23 @@ const Pagination = ({ currentPage, totalPages, onPageChange, totalItems, itemsPe
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          style={{
-            padding: '0.5rem 0.75rem',
-            border: '1px solid #d1d5db',
-            borderRadius: '0.375rem',
-            backgroundColor: 'white',
-            color: currentPage === totalPages ? '#9ca3af' : '#374151',
-            cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-            fontSize: '0.875rem',
-            transition: 'all 0.2s ease',
-            opacity: currentPage === totalPages ? 0.5 : 1
-          }}
-          onMouseEnter={(e) => {
-            if (currentPage !== totalPages) {
-              e.currentTarget.style.backgroundColor = '#f3f4f6';
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (currentPage !== totalPages) {
-              e.currentTarget.style.backgroundColor = 'white';
-            }
-          }}
+          className={`${styles.button} ${styles.navButton} ${currentPage === totalPages ? styles.disabled : ''}`}
         >
-          次 ▶
+          次 <span className={styles.arrow}>▶</span>
         </button>
 
         {/* 最後のページボタン */}
         <button
           onClick={() => onPageChange(totalPages)}
           disabled={currentPage === totalPages}
-          style={{
-            padding: '0.5rem 0.75rem',
-            border: '1px solid #d1d5db',
-            borderRadius: '0.375rem',
-            backgroundColor: 'white',
-            color: currentPage === totalPages ? '#9ca3af' : '#374151',
-            cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-            fontSize: '0.875rem',
-            transition: 'all 0.2s ease',
-            opacity: currentPage === totalPages ? 0.5 : 1
-          }}
-          onMouseEnter={(e) => {
-            if (currentPage !== totalPages) {
-              e.currentTarget.style.backgroundColor = '#f3f4f6';
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (currentPage !== totalPages) {
-              e.currentTarget.style.backgroundColor = 'white';
-            }
-          }}
+          className={`${styles.button} ${styles.navButton} ${currentPage === totalPages ? styles.disabled : ''}`}
         >
           最後
         </button>
       </div>
 
       {/* ページ情報 */}
-      <div style={{
-        fontSize: '0.75rem',
-        color: '#9ca3af',
-        textAlign: 'center'
-      }}>
+      <div className={styles.pageInfo}>
         ページ {currentPage} / {totalPages}
       </div>
     </div>

@@ -1,0 +1,126 @@
+/* FilterTabs.module.css */
+.container {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f3f4f6;
+  margin-bottom: 2rem;
+}
+
+.tabsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.5rem;
+}
+
+.tabButton {
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: transparent;
+  color: #374151;
+  transition: all 0.2s ease;
+  min-height: 5rem;
+  justify-content: center;
+}
+
+.tabButton:hover:not(.active) {
+  background-color: #f3f4f6;
+}
+
+.tabButton.active {
+  background-color: #10b981;
+  color: white;
+}
+
+.icon {
+  font-size: 1.25rem;
+}
+
+.label {
+  text-align: center;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.count {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #10b981;
+}
+
+.countActive {
+  color: white;
+}
+
+/* === レスポンシブ対応 === */
+@media (max-width: 768px) {
+  .tabsGrid {
+    display: flex;
+    overflow-x: auto;
+    gap: 0.75rem;
+    padding-bottom: 0.5rem;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tabButton {
+    flex-shrink: 0;
+    min-width: 5rem;
+    padding: 0.75rem 0.5rem;
+    min-height: 4.5rem;
+  }
+
+  .tabsGrid::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .tabsGrid::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 2px;
+  }
+
+  .tabsGrid::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 2px;
+  }
+
+  .tabsGrid::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.75rem;
+  }
+
+  .tabButton {
+    min-width: 4rem;
+    padding: 0.5rem 0.25rem;
+    min-height: 4rem;
+  }
+
+  .icon {
+    font-size: 1rem;
+  }
+
+  .label {
+    font-size: 0.75rem;
+  }
+
+  .count {
+    font-size: 1rem;
+  }
+}
