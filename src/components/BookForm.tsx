@@ -120,7 +120,7 @@ const BookForm = ({
 
           {/* 表紙画像 */}
           {thumbnail && (
-            <div className={styles.inputGroup}>
+            <div className={`${styles.inputGroup} ${styles.inputGroupthumbnail}`}>
               <label className={styles.label}>表紙</label>
               <img
                 src={thumbnail}

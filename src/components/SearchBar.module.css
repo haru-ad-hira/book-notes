@@ -5,11 +5,16 @@
 
 .inputWrapper {
   position: relative;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
 }
 
 .input {
   width: 100%;
-  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  padding: 0.75rem 1rem 0.75rem 3rem;
   border: 1px solid #d1d5db;
   border-radius: 0.75rem;
   font-size: 1rem;
@@ -26,7 +31,7 @@
 
 .icon {
   position: absolute;
-  left: 0.75rem;
+  left: 2.75rem;
   top: 50%;
   transform: translateY(-50%);
   color: #9ca3af;
@@ -42,7 +47,7 @@
   }
 
   .icon {
-    left: 0.625rem;
+    left: 2rem;
     font-size: 1.125rem;
   }
 }
@@ -54,7 +59,6 @@
   }
 
   .icon {
-    left: 0.5rem;
     font-size: 1rem;
   }
 }

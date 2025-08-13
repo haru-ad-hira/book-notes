@@ -422,7 +422,7 @@ function App() {
             }}
           >
             <span style={{ fontSize: '1.25rem' }}>+</span>
-            本を追加
+            新しい本を追加
           </button>
         </div>
 

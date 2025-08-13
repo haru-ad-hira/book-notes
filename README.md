@@ -1,71 +1,49 @@
-# React + TypeScript + Vite
+# 📚 読書記録アプリ
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React × TypeScript で作るシンプルな読書管理アプリ。
+Google Books API と連携して書籍情報を自動取得し、読書状況・感想・評価を簡単に管理できます。
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 概要
 
-## Expanding the ESLint configuration
+このアプリは、読んだ本や読みたい本を記録できる読書管理ツールです。
+書籍検索から感想・評価の記録、読書状況の管理まで一括で行えます。
+紙の読書ノートのデジタル版として、読書記録の整理をサポートします。
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## ✨ 主な機能
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- 本の追加（Google Books API 検索対応）
+- 読書状況の管理（読みたい / 今読んでいる / 読み終わった）
+- 感想・評価の記録
+- 書籍の検索・並べ替え
+- レスポンシブ対応（スマホ・タブレット最適化）
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## 🛠 使用技術
+
+- **フロントエンド**：React, TypeScript, CSS Modules
+- **API**：Google Books API
+- **ビルドツール**：Vite（または Create React App）
+- **パッケージ管理**：npm
+
+---
+
+## 📦 インストールと起動方法
+
+```bash
+# リポジトリのクローン
+git clone https://github.com/haru-ad-hira/book-notes
+
+# ディレクトリへ移動
+cd リポジトリ名
+
+# 依存パッケージのインストール
+npm install
+
+# 開発サーバーの起動
+npm run dev
 ```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-# book-notes
-# book-notes
